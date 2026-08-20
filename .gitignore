@@ -1,0 +1,22 @@
+# Local secrets and environment
+.env
+.env.*
+!.env.example
+*.secret
+*.secrets
+*credentials*.json
+*token*.json
+
+# Google Health MCP local state (normally stored in the user home)
+.google-health-mcp/
+
+# Logs and generated test output
+*.log
+logs/
+test-results/
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
