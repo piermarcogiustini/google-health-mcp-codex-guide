@@ -45,11 +45,11 @@
 - Consumes: the proven package baseline and commands from the approved design.
 - Produces: an evidence-backed package name, exact version, minimum Node major version, supported setup/auth/doctor arguments, privacy choices, callback URI, scope environment variable, and upstream license for Tasks 2-6.
 
-- [ ] **Step 1: Read current primary sources**
+- [x] **Step 1: Read current primary sources**
 
 Open the current upstream repository, npm package metadata, Google Health setup/scopes documentation, OpenAI MCP documentation, and Anthropic MCP documentation. Record source URLs in working notes; do not copy personal setup data.
 
-- [ ] **Step 2: Query the exact npm package contract**
+- [x] **Step 2: Query the exact npm package contract**
 
 Run:
 
@@ -62,11 +62,11 @@ npx.cmd -y google-health-mcp-unofficial@0.7.6 doctor --help
 
 Expected: package metadata resolves; help output confirms the supported command names and flags without starting OAuth or reading health data.
 
-- [ ] **Step 3: Inspect the upstream license and security-sensitive behavior**
+- [x] **Step 3: Inspect the upstream license and security-sensitive behavior**
 
 Confirm from the upstream source that credentials and tokens are stored outside the future repository, determine the exact local callback URI, and verify how `GOOGLE_HEALTH_SCOPES` and privacy mode are consumed. Do not display any existing local credential file.
 
-- [ ] **Step 4: Resolve the pinned constants**
+- [x] **Step 4: Resolve the pinned constants**
 
 Choose the newest version only if its documented contract matches the proven flow. Otherwise retain `0.7.6`. Record these exact implementation constants in the task notes:
 
@@ -82,9 +82,32 @@ StandardReadOnlyScopes
 ExtendedReadOnlyScopes
 ```
 
-- [ ] **Step 5: Stop on incompatibility**
+- [x] **Step 5: Stop on incompatibility**
 
 If current upstream behavior no longer supports local setup, OAuth, `structured` privacy, or live diagnosis, stop implementation and report the precise incompatibility instead of designing undocumented flags.
+
+**Verified contract (2026-08-20):**
+
+```text
+PackageName: google-health-mcp-unofficial
+PackageVersion: 0.7.6
+MinimumNodeMajor: 20
+CallbackUri: http://127.0.0.1:3000/callback
+SetupArguments: setup --client generic --scope-preset basic --privacy-mode structured --no-auth
+AuthArguments: auth
+DoctorArguments: doctor --live
+StandardReadOnlyScopes: activity_and_fitness, health_metrics_and_measurements, profile, settings, sleep (readonly)
+ExtendedReadOnlyScopes: standard plus ecg, irn, location (readonly)
+UpstreamLicense: MIT
+```
+
+`--client generic` writes only an inert sample at
+`~/.google-health-mcp/mcp-configs/generic.json`; it does not edit ChatGPT,
+Claude, Codex, or Claude Code configuration. Secrets and tokens remain under
+`~/.google-health-mcp`, outside this repository. `setup --help` and
+`doctor --help` are not side-effect-free help commands in 0.7.6, so their
+behavior was verified from the published package source after the top-level
+help/metadata probes.
 
 ---
 
