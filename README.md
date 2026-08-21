@@ -12,9 +12,12 @@ A read-only local MCP server that lets a compatible client query Fitbit data
 available through Google Health APIs. The workflow uses
 `google-health-mcp-unofficial@0.7.6`, Node.js 20+, and `structured` privacy mode.
 
-> ChatGPT web/desktop cannot connect directly to a local MCP server. ChatGPT
-> requires a remote MCP endpoint or OpenAI Secure MCP Tunnel. Codex, Claude
-> Desktop, and Claude Code can start this local server directly.
+> ChatGPT does not attach directly to a local MCP process over `stdio`. Custom
+> MCP apps require a reachable endpoint; OpenAI Secure MCP Tunnel is the option
+> for eligible private environments. Full MCP support is currently beta and its
+> availability depends on plan and workspace permissions. See the
+> [current OpenAI documentation](https://help.openai.com/en/articles/12584461-developer-mode-apps-and-full-mcp-connectors-in-chatgpt-beta).
+> Codex, Claude Desktop, and Claude Code can start this local server directly.
 
 ## How it works
 
@@ -49,20 +52,20 @@ account under **Test users**. Request only the scopes you need.
 Standard read-only set:
 
 ```text
-https://www.googleapis.com/auth/fitbit.activity_and_fitness.readonly
-https://www.googleapis.com/auth/fitbit.health_metrics_and_measurements.readonly
-https://www.googleapis.com/auth/fitbit.nutrition.readonly
-https://www.googleapis.com/auth/fitbit.profile.readonly
-https://www.googleapis.com/auth/fitbit.settings.readonly
-https://www.googleapis.com/auth/fitbit.sleep.readonly
+https://www.googleapis.com/auth/googlehealth.activity_and_fitness.readonly
+https://www.googleapis.com/auth/googlehealth.health_metrics_and_measurements.readonly
+https://www.googleapis.com/auth/googlehealth.nutrition.readonly
+https://www.googleapis.com/auth/googlehealth.profile.readonly
+https://www.googleapis.com/auth/googlehealth.settings.readonly
+https://www.googleapis.com/auth/googlehealth.sleep.readonly
 ```
 
 The `extended` set adds ECG, irregular-rhythm notifications, and GPS location:
 
 ```text
-https://www.googleapis.com/auth/fitbit.ecg.readonly
-https://www.googleapis.com/auth/fitbit.irn.readonly
-https://www.googleapis.com/auth/fitbit.location.readonly
+https://www.googleapis.com/auth/googlehealth.ecg.readonly
+https://www.googleapis.com/auth/googlehealth.irn.readonly
+https://www.googleapis.com/auth/googlehealth.location.readonly
 ```
 
 Do not add `.write` or `.writeonly` scopes. See the current

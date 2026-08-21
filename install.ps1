@@ -22,18 +22,18 @@ function Get-GoogleHealthScopeSet {
     param([ValidateSet('standard', 'extended')][string]$Name = 'standard')
 
     $base = @(
-        'https://www.googleapis.com/auth/fitbit.activity_and_fitness.readonly'
-        'https://www.googleapis.com/auth/fitbit.health_metrics_and_measurements.readonly'
-        'https://www.googleapis.com/auth/fitbit.nutrition.readonly'
-        'https://www.googleapis.com/auth/fitbit.profile.readonly'
-        'https://www.googleapis.com/auth/fitbit.settings.readonly'
-        'https://www.googleapis.com/auth/fitbit.sleep.readonly'
+        'https://www.googleapis.com/auth/googlehealth.activity_and_fitness.readonly'
+        'https://www.googleapis.com/auth/googlehealth.health_metrics_and_measurements.readonly'
+        'https://www.googleapis.com/auth/googlehealth.nutrition.readonly'
+        'https://www.googleapis.com/auth/googlehealth.profile.readonly'
+        'https://www.googleapis.com/auth/googlehealth.settings.readonly'
+        'https://www.googleapis.com/auth/googlehealth.sleep.readonly'
     )
     if ($Name -eq 'extended') {
         return $base + @(
-            'https://www.googleapis.com/auth/fitbit.ecg.readonly'
-            'https://www.googleapis.com/auth/fitbit.irn.readonly'
-            'https://www.googleapis.com/auth/fitbit.location.readonly'
+            'https://www.googleapis.com/auth/googlehealth.ecg.readonly'
+            'https://www.googleapis.com/auth/googlehealth.irn.readonly'
+            'https://www.googleapis.com/auth/googlehealth.location.readonly'
         )
     }
     return $base

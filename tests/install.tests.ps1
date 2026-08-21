@@ -24,6 +24,8 @@ $extended = @(Get-GoogleHealthScopeSet -Name extended)
 Assert-Equal 6 $standard.Count 'standard scope count'
 Assert-Equal 9 $extended.Count 'extended scope count'
 Assert-Equal $true (($extended | Where-Object { $_ -notmatch '\.readonly$' }).Count -eq 0) 'extended scopes are read-only'
+Assert-Equal $true (($extended | Where-Object { $_ -notlike 'https://www.googleapis.com/auth/googlehealth.*' }).Count -eq 0) 'uses the Google Health OAuth namespace'
+Assert-Equal $true (($extended | Where-Object { $_ -like 'https://www.googleapis.com/auth/fitbit.*' }).Count -eq 0) 'does not use the legacy invalid Fitbit OAuth namespace'
 
 $plan = @(Get-UpstreamCommandPlan -ScopeSet standard)
 Assert-Equal 3 $plan.Count 'setup auth doctor plan'

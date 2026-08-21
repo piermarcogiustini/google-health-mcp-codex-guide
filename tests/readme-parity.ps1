@@ -20,4 +20,14 @@ if ($difference) {
     $difference | Format-Table -AutoSize
     throw 'English and Italian command sets differ.'
 }
+
+foreach ($readme in @('README.it.md', 'README.md')) {
+    $content = Get-Content -LiteralPath (Join-Path $root $readme) -Raw
+    if ($content -match 'https://www\.googleapis\.com/auth/fitbit\.') {
+        throw "$readme contains the invalid Fitbit OAuth namespace."
+    }
+    if ($content -notmatch 'https://www\.googleapis\.com/auth/googlehealth\.') {
+        throw "$readme does not document the Google Health OAuth namespace."
+    }
+}
 Write-Host 'README command parity passed.'
